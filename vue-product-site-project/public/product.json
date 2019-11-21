@@ -1,0 +1,30 @@
+[
+                    {
+                        "name" : "sonanta",
+                        "info" : "중형의 자존심! 소나타!",
+                        "price" : "3400",
+                        "path" : "/img/sonata.jpg"       
+                    },
+                    {
+                        "name" : "avante",
+                        "info" : "준중형의 끝판왕! 아반떼",
+                        "price" : "2300",
+                        "path" : "/img/avante.jpg"       
+
+                    },
+                    {
+                        "name" : "eClass",
+                        "info" : "남자의 자존심! E-Class",
+                        "price" : "6300",
+                        "path" : "/img/eClass.jpg"       
+
+                    },
+                    {
+                        "name" : "audiA5",
+                        "info" : "아우디의 정석! A5",
+                        "price" : "5300",
+                        "path" : "/img/audiA5.jpg"       
+
+                    }
+
+]
