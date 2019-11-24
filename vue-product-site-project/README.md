@@ -8,7 +8,11 @@
 npm install --save axios
 ```
 
+## vue-router install(vue Router 기능)
 
+```
+vue add router
+```
 
 ## vue-cli npm install
 
