@@ -7,7 +7,7 @@
 <script>
 import AppHeader from './components/header';
 import ProductList from './components/productList';
-
+//import ProductDetail from './components/productDetail';
 
 export default {
   components  : {

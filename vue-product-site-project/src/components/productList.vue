@@ -1,33 +1,39 @@
 <template>
+ <div class="container">
+    <h1 class="my-4">신차 리스트</h1>
     <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4" @for="Object in productList">
+        <div v-list
+        v-for="(result,index) in productList"
+        :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
-                <a href="#"><img class="card-img-top" v-bind:src="Object.path.value" alt=""></a> 
+                <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
                 <h4 class="card-title">
-                    <a href="#">{{Object.name}}</a>
+                    <a href="#">{{result.name}}</a>
                 </h4>
                 <hr width="100%">
-                <p class="card-text">{{Object.info}}</p>
-                <p class="card-text"><small class="text-muted">{{Object.price}}만원</small></p>
+                <p class="card-text">{{result.info}}</p>
+                <p class="card-text" v-if="result.saleYn =='N'">
+                    <small class="text-muted">{{result.price}}만원</small>
+                </p>
+                <p class="card-text" v-else>
+                    <s><small class="text-muted">{{result.price}}만원</small></s> &nbsp;
+                    <small class="text-muted">{{result.price - result.disCountPrice}}만원</small>
+                </p>
                 </div>
             </div>
         </div>
     </div>
+ </div>
 </template>
 
 <script>
+
 import axios from 'axios';
 export default {
     data : function(){
         return {
-            productList : this.getJson(),    //json으로 받아온 제품리스트 받아올 객체
-            value : {
-                "name" : "",
-                "info" : "",
-                "price" : "",
-                "path" : ""
-            }
+            productList : this.getJson()  //json으로 받아온 제품리스트 받아올 객체
         }
     },
     methods:{
