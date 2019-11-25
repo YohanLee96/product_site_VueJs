@@ -9,7 +9,9 @@
                 <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
                 <h4 class="card-title">
-                    <a href="#">{{result.name}}</a>
+                    <a href="#" v-on:click="sendEvent(index)">
+                        {{result.name}}
+                    </a>
                 </h4>
                 <hr width="100%">
                 <p class="card-text">{{result.info}}</p>
@@ -30,28 +32,47 @@
 <script>
 
 import axios from 'axios';
+
 export default {
     data : function(){
         return {
-            productList : this.getJson()  //json으로 받아온 제품리스트 받아올 객체
+            productList : this.getJson()
         }
     },
     methods:{
-         getJson : function(){
+         getJson : function(){  //json 데이터 가져옴.
              let vm = this;
              axios.get('product.json')
                 .then(function(response){
-                    console.log(response.data);
                     vm.productList = response.data;
                 })
                 .catch(function(error){
-                    console.log(error);
-                    
+                    console.log(error);              
                 })
              
-         }
+         },
+         sendEvent : function(index){  
+            let vm = this;           
+            let router = this.$router;
+            router.push({
+                name : "detail",
+                params : {
+                    "index" : index,
+                    "name" : vm.productList[index].name,
+                    "price" : vm.productList[index].price,
+                    "info" : vm.productList[index].info,
+                    "saleYn" : vm.productList[index].saleYn,      
+                    "disCountPrice" : vm.productList[index].disCountPrice,                                        
+                    "path" : vm.productList[index].path
 
-     }
+                }
+
+            })
+         }
+    },
+    mounted(){
+
+    }
 }
 </script>
 
