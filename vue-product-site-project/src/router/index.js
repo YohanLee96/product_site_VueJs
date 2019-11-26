@@ -18,8 +18,13 @@ const routes = [
     path: '/:index',
     name: 'detail',
     component: () => import(/* webpackChunkName: "about" */ '../views/productDetail.vue'),
-    props : true
+  },
+  {
+    path: '/:index/confirm',
+    name: 'confirm',
+    component: () => import(/* webpackChunkName: "about" */ '../views/productConfirmation.vue'),
   }
+
 ]
 
 const router = new VueRouter({

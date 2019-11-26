@@ -11,18 +11,7 @@ import headerView from './views/header.vue';
 export default {
   components :{
     'header-view' : headerView
-  },
-  data : function(){
-    return {
-      data : 'aa'
-    }
-  },
-  methods:{
-    parentMethod : function(data){
-      console.log(data);
-    }
-  },
-
+  }
 }
 </script>
 
