@@ -2,13 +2,13 @@
 
 
 
-## vue-cli axios install(json 받아오는 라이브러리)
+## vue-cli axios install
 
 ```
 npm install --save axios
 ```
 
-## vue-router install(vue Router 기능)
+## vue-router install
 
 ```
 vue add router
