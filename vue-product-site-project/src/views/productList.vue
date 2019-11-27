@@ -2,9 +2,7 @@
  <div class="container">
     <h1 class="my-4">신차 리스트</h1>
     <div class="row">
-        <div v-list
-        v-for="(result,index) in productList"
-        :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div v-for="(result,index) in productList" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
                 <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
@@ -16,11 +14,11 @@
                 <hr width="100%">
                 <p class="card-text">{{result.info}}</p>
                 <p class="card-text" v-if="result.saleYn =='N'">
-                    <small class="text-muted">{{result.price}}만원</small>
+                    <small class="text-muted">{{result.price}}원</small>
                 </p>
                 <p class="card-text" v-else>
-                    <s><small class="text-muted">{{result.price}}만원</small></s> &nbsp;
-                    <small class="text-muted">{{result.price - result.disCountPrice}}만원</small>
+                    <s><small class="text-muted">{{result.price}}원</small></s> &nbsp;
+                    <small class="text-muted">{{result.price - result.disCountPrice}}원</small>
                 </p>
                 </div>
             </div>
@@ -69,9 +67,6 @@ export default {
 
             })
          }
-    },
-    mounted(){
-
     }
 }
 </script>

@@ -44,9 +44,7 @@
                        <div style="width:100%; height:200px; overflow:auto">
                         <table class="table table-striped" style="overflow-y:auto; ">
                                 <tbody  v-if="buyList.length">
-                                    <tr v-list
-                                        v-for="(result,index) in buyList"
-                                        :key="index">
+                                    <tr v-for="(result,index) in buyList" :key="index">
                                         <th scope="row">
                                             <p class="font-weight-bolder">{{name}}</p>    
                                             <small style="color:gray">-{{result.name}}</small>
@@ -55,8 +53,6 @@
                                             <button type="button" v-on:click="minus(index)" class="btn btn-light">-</button>
                                             <input type="text" 
                                                    v-bind:value="result.num"
-                                                   v-bind:id="index"
-                                                   v-bind:name="prtPrice"  
                                                    style="width:30%"/>
                                             <button type="button" v-on:click="plus(index)" class="btn btn-light">+</button> 
                                         </td>
@@ -167,15 +163,17 @@ export default {
          del : function(index){
              this.buyList.splice(index,1);
          },
-         sendEvent : function(){
-            //let vm = this;           
+         sendEvent : function(){        
             let router = this.$router; 
             router.push({
                 name : "confirm",
                 params : {
+                   productName : this.name,
+                   path : this.path,
+                   price : this.price,
                    resultList :  this.buyList,
                    totalPrice : this.totalPrice,
-                   totalNum : this.totalProductNum
+                   totalNum : this.totalProductNum,
 
                 }
             })

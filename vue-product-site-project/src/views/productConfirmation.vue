@@ -23,40 +23,45 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
-          <td>@mdo</td>
+        <tr v-for="(result,index) in resultList" v-bind:key="index">
+          <th scope="row">
+            <img style=" width:60px;height:60px;" v-bind:src="path" alt="제품 사진">
+          </th>
+          <td>
+            <p class="font-weight-bold">{{productName}}</p>
+            <span class="badge badge-pill badge-dark">{{result.name}}</span>
+          </td>
+          <td>
+            <p class="font-weight-bold">{{price}}원</p>
+          </td>
+          <td>
+             <p class="font-weight-bold">{{result.num}}</p>
+          </td>
+          <td>-</td>
+          <td>기본배송</td>
+          <td>
+            <p class="font-weight-bold" v-if="totalProductPrice<50000">
+              {{deliveryPrice}}원
+            </p>
+            <p class="font-weight-bold" v-else>
+              [무료]
+            </p>
+          </td>
+          <td>
+            <p class="font-weight-bold">{{price * result.num}}원</p>
+          </td>
         </tr>
         <tr>
           <td>[기본배송]</td>
-          <td colspan="7" style="text-align:right">abcabc</td>
-        </tr>
+          <td colspan="7" style="text-align:right;">            
+             <div>
+                <small style="display: inline-block;">
+                  <b>상품구매금액 {{totalProductPrice}}</b> + 배송비 {{deliveryPrice}}<div v-if="deliveryPrice==0">(무료)</div>=합계 : 
+                </small>
+                <h3>{{totalPrice}}원</h3> 
+             </div> 
+          </td>
+        </tr> 
       </tbody>
     </table>
   </div>
@@ -64,6 +69,34 @@
 
 <script>
 export default {
+  data : function(){
+    return {
+      productName : this.$route.params.productName,
+      path : this.$route.params.path,
+      price : this.$route.params.price,
+      resultList : this.$route.params.resultList, //결제 확정 리스트.
+      totalProductPrice : this.$route.params.totalPrice, //결제 확정 총금액.
+      totalNum : this.$route.params.totalNum,  //결제 확정 총 상품 개수.
+    }
+  },
+  computed : {
+    deliveryPrice : function(){
+
+        let price = 0;
+
+        if(50000<this.totalProductPrice){
+          return price;
+        }else{
+          return price=2500;
+        }
+    },
+     totalPrice : function(){
+      return  this.totalProductPrice + this.deliveryPrice;
+    }
+    
+
+  }
+
 
 }
 </script>
