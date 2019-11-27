@@ -1,6 +1,6 @@
 [
                     {
-                        "name" : "sonanta",
+                        "name" : "Sonanta",
                         "info" : "중형의 자존심! 소나타!",
                         "price" : "3400",
                         "saleYn" :"N",
@@ -8,7 +8,7 @@
                         "path" : "/img/sonata.jpg"       
                     },
                     {
-                        "name" : "avante",
+                        "name" : "Avante",
                         "info" : "준중형의 끝판왕! 아반떼",
                         "price" : "2300",
                         "saleYn" :"N",
@@ -17,22 +17,87 @@
 
                     },
                     {
-                        "name" : "eClass",
+                        "name" : "E-Class",
                         "info" : "남자의 자존심! E-Class",
-                        "price" : "6300",
+                        "price" : "7300",
                         "saleYn" :"N",
                         "disCountPrice" : "0",
                         "path" : "/img/eClass.jpg"       
 
                     },
                     {
-                        "name" : "audiA5",
+                        "name" : "AudiA5",
                         "info" : "아우디의 정석! A5",
                         "price" : "5300",
                         "saleYn" :"Y",
                         "disCountPrice" : "400",
                         "path" : "/img/audiA5.jpg"       
 
+                    },
+                    {
+                        "name": "Morning",
+                        "info": "경차는 뭐다? 모닝이다!",
+                        "price": "900",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/morning.png"
+                    },
+                    {
+                        "name": "Spark",
+                        "info": "쉐보레의 막내. 스파크~",
+                        "price": "900",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/spark.jpg"
+                    },
+                    {
+                        "name": "Pride",
+                        "info": "뿌리깊은 소형차. Pride",
+                        "price": "900",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/pride.png"
+                    },
+                    {
+                        "name": "BMW-5-Series",
+                        "info": "캐주얼 외제차의 표본. BMW-5-Series",
+                        "price": "6500",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/bmw5.jpg"
+                    },
+                    {
+                        "name": "Sorento",
+                        "info": "중형 SUV의 간지. 쏘렌토",
+                        "price": "4500",
+                        "saleYn": "Y",
+                        "disCountPrice": "1200",
+                        "path": "/img/sorento.jpg"
+                    },
+                    {
+                        "name": "Palisade",
+                        "info": "대형SUV의 간지. 펠리세이드",
+                        "price": "5500",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/palisade.jpg"
+                    },
+                    {
+                        "name": "Rolls-Royce-Ghost",
+                        "info": "회장님, 이차는 문이 거꾸로열립니다. 롤스로이스 고스트~",
+                        "price": "30500",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/Rolls-Royce-Ghost.jpg"
+                    },
+                    {
+                        "name": "Bentley-Mulsanne",
+                        "info": "도끼가 가지고있는 그차. 뮬산",
+                        "price": "34500",
+                        "saleYn": "N",
+                        "disCountPrice": "0",
+                        "path": "/img/Bentley-Mulsanne.jpg"
                     }
+
 
 ]

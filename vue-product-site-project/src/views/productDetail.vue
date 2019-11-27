@@ -5,24 +5,19 @@
             <div class="row">
                 <aside class="col-sm-2">
                     <article class="card-body m-0 pt-13 pl-1">
-                        <h3 class="title text">{{name}}</h3>					
-                        <div class="mb-3 mt-3"> 
-                            <span class="price-title">
-                                <s v-if="saleYn =='Y'">{{price}}</s>&nbsp;
-                                <span v-else>{{price}}</span>
-                                <b  v-if="saleYn =='Y'">&nbsp; {{price-disCountPrice}}</b>
-                            </span>
+                        <div class="jumbotron jumbotron-fluid">
+                            <div class="container">
+                                <h1 class="display-4">{{name}}</h1>					                       
+                                    <div  v-if="saleYn =='Y'">
+                                        <s>{{price}}원</s>&nbsp;
+                                        <span class="font-weight-bold">{{price-disCountPrice}}원</span>
+                                    </div>
+                                    <div v-else>
+                                          <span class="font-weight-bold">{{price}}원</span>
+                                    </div>
+                                <p class="lead">{{info}}</p>
+                            </div>
                         </div>
-                        <dl class="item-property">
-                        <dd>
-                            <p>{{info}}</p>
-                        </dd>
-                        </dl>
-                        <!-- 
-                        <dl class="param param-feature">
-                            <dt>Poids</dt>
-                            <dd>200g</dd>
-                        </dl> -->
                     </article>
                 </aside>
                 <aside class="col-sm-3">
@@ -141,12 +136,6 @@ export default {
              }           
          },
          add : function(){   
-            // for(let i=0;i<this.buyList.length;i++){
-            //     if(this.buyList[i].name == this.selected){
-            //         alert('이미 제품이 추가되있습니다.');
-            //         return false;
-            //     }
-            // }
             let obj = this.buyList.find( a=> a.name === this.selected);
             if(obj != undefined){
                 alert('해당 제품은 이미 추가한 제품입니다.');
