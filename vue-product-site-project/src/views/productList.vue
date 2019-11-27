@@ -2,7 +2,7 @@
  <div class="container">
     <h1 class="my-4">제품 리스트</h1>
     <div class="row">
-        <div v-for="(result,index) in paginatedData" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div v-for="(result,index) in pageList" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
                 <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
@@ -28,17 +28,17 @@
     <!-- 페이징 처리 -->
     <div class="justify-content-center" style="width: 100%;align-items: center;display: flex;">
         <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+            <li class="page-item" v-if="pageCount != 1">
+                <a class="page-link" v-on:click="pagingClick(pageCount-1)" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                     <span class="sr-only">Previous</span>
-                    </a>
+                </a>
             </li>
             <li v-for="index in pageCnt" :key="index" class="page-item">
-                <a class="page-link" href="#">{{index}}</a>
+                <a class="page-link" v-on:click="pagingClick(index)">{{index}}</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item" v-if="pageCnt!=pageCount">
+                <a class="page-link" v-on:click="pagingClick(pageCount+1)" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                     <span class="sr-only">Next</span>
                 </a>
@@ -54,28 +54,37 @@
 import axios from 'axios';
 
 export default {
+    created(){
+        let vm = this;
+        axios.get('product.json')
+        .then(function(response){
+            vm.productList = response.data;
+        })
+        .catch(function(error){
+            console.log(error);              
+        })
+    },
     data : function(){
         return {
-            productList : this.getJson(),
-            //페이징 객체
-            pageSize : 4,              //한페이지 표출할 게시물 수.
-            pagingBarCnt : 10,               // 푸터에 페이징 바는 몇까지 표출할지.
-            PageNum : 1
-
+            productList : [],
+            pageSize : 4,              // 한페이지 표출할 게시물 수
+            firstIndex : 0,            // 첫번째 게시물 Index
+            lastIndex : 4,             // 마지막 게시물 Index 
+            pageCount : 1              // 현재 몇페이지인지..
         }
     },
+    computed : {
+       dataCnt : function() {   //총 게시물 수.
+           return this.productList.length;
+       },
+       pageCnt : function(){    //페이지셋 갯수
+           return Math.ceil(this.dataCnt/this.pageSize);
+       },
+       pageList : function(){
+            return this.productList.slice(this.firstIndex,this.lastIndex);
+       },
+    },
     methods:{
-         getJson : function(){  //json 데이터 가져옴.
-             let vm = this;
-             axios.get('product.json')
-                .then(function(response){
-                    vm.productList = response.data;
-                })
-                .catch(function(error){
-                    console.log(error);              
-                })
-             
-         },
          sendEvent : function(index){  //상세보기로 이동.
             let vm = this;           
             let router = this.$router;
@@ -93,24 +102,18 @@ export default {
                 }
 
             })
+         },
+         pagingClick : function(index){
+             if(index <= 0){
+                  this.firstIndex =0;
+                  this.lastIndex =this.pageSize;
+                  this.pageCount =1;
+             }else{
+                this.pageCount = index;
+                this.firstIndex = (index-1) * this.pageSize;
+                this.lastIndex = this.firstIndex + this.pageSize;
+             }
          }
-    },
-    computed : {
-       dataCnt : function() {   //총 게시물 수.
-           return this.productList.length;
-       },
-       pageCount : function() {   //페이징바 총 카온트
-            let listLeng = this.productList.length;
-            let listSize = this.pageSize;
-            let page = Math.floor(listLeng / listSize);
-            if (listLeng % listSize > 0) page += 1;
-            return page;
-       },
-       paginatedData : function() {
-            let start = this.pageNum * this.pageSize;
-            let end = start + this.pageSize;
-            return this.productList.slice(start, end);
-       }
     }
 
 }

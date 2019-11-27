@@ -69,6 +69,12 @@
 
 <script>
 export default {
+  created(){
+    if(this.$route.params.resultList==undefined){
+      alert('구매할 정보를 다시 입력해주세요!!');
+      history.back(-1);
+    }
+  },
   data : function(){
     return {
       productName : this.$route.params.productName,
