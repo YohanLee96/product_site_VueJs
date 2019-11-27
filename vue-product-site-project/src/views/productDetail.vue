@@ -57,7 +57,7 @@
                                             <button type="button" v-on:click="plus(index)" class="btn btn-light">+</button> 
                                         </td>
                                         <td>
-                                            <p style="white-space: nowrap;">{{price}}원</p> 
+                                            <p style="white-space: nowrap;">{{price-disCountPrice}}원</p> 
                                         </td>
                                         <td>
                                             <button type="button" v-on:click="del(index)" class="btn btn-light">X</button>
@@ -111,7 +111,7 @@ export default {
                 totalNum += this.buyList[i].num;                 
             }  
           
-            return  this.price * totalNum;
+            return  (this.price-this.disCountPrice) * totalNum;
         },
         totalProductNum : function(){
             let totalNum =0;
@@ -170,7 +170,7 @@ export default {
                 params : {
                    productName : this.name,
                    path : this.path,
-                   price : this.price,
+                   price : this.price-this.disCountPrice,
                    resultList :  this.buyList,
                    totalPrice : this.totalPrice,
                    totalNum : this.totalProductNum,
