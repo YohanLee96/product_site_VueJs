@@ -28,21 +28,39 @@
     <!-- 페이징 처리 -->
     <div class="justify-content-center" style="width: 100%;align-items: center;display: flex;">
         <ul class="pagination">
-            <li class="page-item" v-if="pageCount != 1">
+            <li class="page-item">
+                <a class="page-link" v-on:click="pagingClick(1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item">
                 <a class="page-link" v-on:click="pagingClick(pageCount-1)" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
-            <li v-for="index in pageCnt" :key="index" class="page-item">
-                <a class="page-link" v-on:click="pagingClick(index)">{{index}}</a>
-            </li>
-            <li class="page-item" v-if="pageCnt!=pageCount">
+                <li 
+                    v-for="index in pageCnt"
+                    v-if="firstPageSet<=index && index<=lastPageSet"
+                    :key="index" 
+                    class="page-item" 
+                    :class="{'active' : pageActive(index)}"
+                >
+                    <a class="page-link" v-on:click="pagingClick(index)">{{index}}</a>
+                </li>
+            <li class="page-item">
                 <a class="page-link" v-on:click="pagingClick(pageCount+1)" aria-label="Next">
                     <span aria-hidden="true">&gt;</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
+             <li class="page-item">
+                <a class="page-link" v-on:click="pagingClick(pageCnt)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+             </li>
         </ul>          
     </div>
  </div>
@@ -70,7 +88,10 @@ export default {
             pageSize : 4,              // 한페이지 표출할 게시물 수
             firstIndex : 0,            // 첫번째 게시물 Index
             lastIndex : 4,             // 마지막 게시물 Index 
-            pageCount : 1              // 현재 몇페이지인지..
+            pageCount : 1,             // 현재 몇페이지인지.. 
+            pageSet : 10,       // 페이지 셋 기준
+            firstPageSet : 1,
+            lastPageSet : 10
         }
     },
     computed : {
@@ -80,9 +101,10 @@ export default {
        pageCnt : function(){    //페이지셋 갯수
            return Math.ceil(this.dataCnt/this.pageSize);
        },
-       pageList : function(){
+       pageList : function(){   //데이터 slice
             return this.productList.slice(this.firstIndex,this.lastIndex);
        },
+       
     },
     methods:{
          sendEvent : function(index){  //상세보기로 이동.
@@ -103,16 +125,28 @@ export default {
 
             })
          },
-         pagingClick : function(index){
-             if(index <= 0){
-                  this.firstIndex =0;
-                  this.lastIndex =this.pageSize;
-                  this.pageCount =1;
-             }else{
+         pagingClick : function(index){ //페이징 계산 함수.
+             if(index <= 0 || this.pageCnt<index){    //index가 0이하거나, 최대페이지셋 개수를 초과할 경우, 아무 작업안함.
+                return false;
+             }else{ //페이징 계산.
                 this.pageCount = index;
                 this.firstIndex = (index-1) * this.pageSize;
                 this.lastIndex = this.firstIndex + this.pageSize;
+
+                //페이지 셋 계산
+                if(index%this.pageSet == 1){
+                    console.log('넘어갔다!!');
+                    this.fisrtPageSet =index;
+                    this.lastPageSet =index + this.pageSet;
+                }
+
+
              }
+         },
+         pageActive : function(index){  //현재 페이지 클래스 active 시켜주는 함수
+             if(index==this.pageCount){ return true;}
+             else return false;
+             
          }
     }
 
