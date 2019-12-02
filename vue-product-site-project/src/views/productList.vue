@@ -29,12 +29,6 @@
     <div class="justify-content-center" style="width: 100%;align-items: center;display: flex;">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" v-on:click="pagingClick(1)" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                </a>
-            </li>
-            <li class="page-item">
                 <a class="page-link" v-on:click="pagingClick(pageCount-1)" aria-label="Previous">
                     <span aria-hidden="true">&lt;</span>
                     <span class="sr-only">Previous</span>
@@ -55,12 +49,6 @@
                     <span class="sr-only">Next</span>
                 </a>
             </li>
-             <li class="page-item">
-                <a class="page-link" v-on:click="pagingClick(pageCnt)" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                </a>
-             </li>
         </ul>          
     </div>
  </div>
@@ -90,8 +78,6 @@ export default {
             lastIndex : 4,             // 마지막 게시물 Index 
             pageCount : 1,             // 현재 몇페이지인지.. 
             pageSet : 10,       // 페이지 셋 기준
-            firstPageSet : 1,
-            lastPageSet : 10
         }
     },
     computed : {
@@ -104,6 +90,13 @@ export default {
        pageList : function(){   //데이터 slice
             return this.productList.slice(this.firstIndex,this.lastIndex);
        },
+       firstPageSet : function(){
+           return Math.floor(this.pageCount/this.pageSet) * this.pageSet;
+       },
+       lastPageSet : function(){
+           return this.firstPageSet + this.pageSet;
+       }
+
        
     },
     methods:{
@@ -132,14 +125,6 @@ export default {
                 this.pageCount = index;
                 this.firstIndex = (index-1) * this.pageSize;
                 this.lastIndex = this.firstIndex + this.pageSize;
-
-                //페이지 셋 계산
-                if(index%this.pageSet == 1){
-                    console.log('넘어갔다!!');
-                    this.firstPageSet =index;
-                    console.log('firstPageSet : '+this.firstPageSet);
-                    this.lastPageSet =index + this.pageSet;
-                }
 
 
              }
