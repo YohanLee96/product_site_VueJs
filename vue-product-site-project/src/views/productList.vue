@@ -1,6 +1,6 @@
 <template>
  <div class="container">
-    <h1 class="my-4">제품 리스트</h1>
+    <h1 class="my-4">Product-List</h1>
     <div class="row">
         <div v-for="(result,index) in pageList" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
@@ -136,7 +136,8 @@ export default {
                 //페이지 셋 계산
                 if(index%this.pageSet == 1){
                     console.log('넘어갔다!!');
-                    this.fisrtPageSet =index;
+                    this.firstPageSet =index;
+                    console.log('firstPageSet : '+this.firstPageSet);
                     this.lastPageSet =index + this.pageSet;
                 }
 
