@@ -7,15 +7,15 @@
                     <article class="card-body m-0 pt-13 pl-1">
                         <div class="jumbotron jumbotron-fluid">
                             <div class="container">
-                                <h1 class="display-4">{{name}}</h1>					                       
+                                <h1 class="display-4">{{item.name}}</h1>					                       
                                     <div  v-if="saleYn =='Y'">
-                                        <s>{{price}}원</s>&nbsp;
-                                        <span class="font-weight-bold">{{price-disCountPrice}}원</span>
+                                        <s>{{item.price}}원</s>&nbsp;
+                                        <span class="font-weight-bold">{{item.price-item.disCountPrice}}원</span>
                                     </div>
                                     <div v-else>
-                                          <span class="font-weight-bold">{{price}}원</span>
+                                          <span class="font-weight-bold">{{item.price}}원</span>
                                     </div>
-                                <p class="lead">{{info}}</p>
+                                <p class="lead">{{item.info}}</p>
                             </div>
                         </div>
                     </article>
@@ -23,7 +23,7 @@
                 <aside class="col-sm-3">
                     <article class="gallery-wrap"> 
                         <div class="img-big-wrap">
-                            <img class="productImg" v-bind:src="path">
+                            <img class="productImg" v-bind:src="item.path">
                         </div>                      
                     </article>
                 </aside>
@@ -52,7 +52,7 @@
                                             <button type="button" v-on:click="plus(index)" class="btn btn-light">+</button> 
                                         </td>
                                         <td>
-                                            <p style="white-space: nowrap;">{{price-disCountPrice}}원</p> 
+                                            <p style="white-space: nowrap;">{{item.price-item.disCountPrice}}원</p> 
                                         </td>
                                         <td>
                                             <button type="button" v-on:click="del(index)" class="btn btn-light">X</button>
@@ -85,17 +85,11 @@ import axios from 'axios';
 export default {
     data : function() {
         return {
-            //상품 기본정보
-            index : this.$route.params.index,
-            name : this.$route.params.name,
-            info : this.$route.params.info,
-            price : this.$route.params.price,
-            saleYn : this.$route.params.saleYn,
-            disCountPrice : this.$route.params.disCountPrice,
-            path : this.$route.params.path,
+            //상품 기본정보(객체로 받자)
+            index : this.$route.params.index,   
+            item : this.$route.params.item,
             productInfo : this.getJson(),
-            //상품 주문정보
-            buyList : []
+            buyList : []    //상품 주문정보를 위한 객체
             
         }
     },
@@ -120,7 +114,7 @@ export default {
     methods : {
          getJson : function(){  //json 데이터 가져옴.
              let vm = this;
-             if(vm.$route.params.name == undefined){    //Routing이 아닌 새로고침 또는 URL로 직접쳐서들어올 경우, json 조회
+             if(vm.$route.params.item == undefined){    //Routing이 아닌 새로고침 또는 URL로 직접쳐서들어올 경우, json 조회
              axios.get('product.json')
                 .then(function(response){                
                         vm.name = response.data[vm.index].name; 

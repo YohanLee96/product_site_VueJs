@@ -7,7 +7,7 @@
                 <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
                 <h4 class="card-title">
-                    <a href="#" v-on:click="sendEvent(index)">
+                    <a href="#" v-on:click="sendEvent(result,index)">
                         {{result.name}}
                     </a>
                 </h4>
@@ -25,7 +25,8 @@
         </div>
     </div>
 
-    <!-- 페이징 처리 -->
+    <!-- 페이징 처리(오류로 인해 잠시 보류) -->
+<!--     
     <div class="justify-content-center" style="width: 100%;align-items: center;display: flex;">
         <ul class="pagination">
             <li class="page-item">
@@ -51,7 +52,8 @@
             </li>
         </ul>          
     </div>
- </div>
+    -->
+ </div> 
  
 </template>
 
@@ -100,20 +102,13 @@ export default {
        
     },
     methods:{
-         sendEvent : function(index){  //상세보기로 이동.
-            let vm = this;           
+         sendEvent : function(item,index){  //상세보기로 이동.         
             let router = this.$router;
             router.push({
                 name : "detail",
                 params : {
-                    "index" : index,
-                    "name" : vm.productList[index].name,
-                    "price" : vm.productList[index].price,
-                    "info" : vm.productList[index].info,
-                    "saleYn" : vm.productList[index].saleYn,      
-                    "disCountPrice" : vm.productList[index].disCountPrice,                                        
-                    "path" : vm.productList[index].path
-
+                     index : index,
+                     item : item
                 }
 
             })
