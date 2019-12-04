@@ -8,7 +8,7 @@
                         <div class="jumbotron jumbotron-fluid">
                             <div class="container">
                                 <h1 class="display-4">{{item.name}}</h1>					                       
-                                    <div  v-if="saleYn =='Y'">
+                                    <div  v-if="item.saleYn =='Y'">
                                         <s>{{item.price}}원</s>&nbsp;
                                         <span class="font-weight-bold">{{item.price-item.disCountPrice}}원</span>
                                     </div>
@@ -38,10 +38,10 @@
                         </select>
                        <div style="width:100%; height:200px; overflow:auto">
                         <table class="table table-striped" style="overflow-y:auto; ">
-                                <tbody  v-if="buyList.length">
+                                <tbody>
                                     <tr v-for="(result,index) in buyList" :key="index">
                                         <th scope="row">
-                                            <p class="font-weight-bolder">{{name}}</p>    
+                                            <p class="font-weight-bolder">{{item.name}}</p>    
                                             <small style="color:gray">-{{result.name}}</small>
                                         </th>
                                         <td>
@@ -83,52 +83,48 @@
 import axios from 'axios';
 
 export default {
+    created(){
+        let vm = this.item;
+        if(vm ==undefined){
+            this.item = {};
+            axios.get('product.json')
+                .then(function(response){
+                    // vm.name = response.data[this.index].name; 
+                    // vm.info = response.data[this.index].info; 
+                    // vm.price = response.data[this.index].price; 
+                    // vm.saleYn = response.data[this.index].saleYn; 
+                    // vm.disCountPrice = response.data[this.index].disCountPrice; 
+                    // vm.path = response.data[this.index].path; 
+                    this.item = response.data[this.$route.params.index];
+                })
+                .catch(function(error){
+                    console.log(error);              
+                })
+        }
+    },
     data : function() {
         return {
-            //상품 기본정보(객체로 받자)
+            //상품 기본정보
             index : this.$route.params.index,   
             item : this.$route.params.item,
-            productInfo : this.getJson(),
             buyList : []    //상품 주문정보를 위한 객체
             
         }
     },
     computed : {
-        totalPrice : function(){
-            let totalNum = 0;
-            for(let i=0;i<this.buyList.length;i++){
-                totalNum += this.buyList[i].num;                 
-            }  
-          
-            return  (this.price-this.disCountPrice) * totalNum;
-        },
-        totalProductNum : function(){
+         totalProductNum : function(){
             let totalNum =0;
-            for(let i=0;i<this.buyList.length;i++){
-                totalNum += this.buyList[i].num;                 
+            for(let i=0;i<this.item.length;i++){
+                totalNum += this.item(i).num;                 
             } 
             
-            return totalNum
+            return totalNum;
+        },
+        totalPrice : function(){       
+            return  (this.item.price-this.item.disCountPrice) * this.totalProductNum;
         }
     },
     methods : {
-         getJson : function(){  //json 데이터 가져옴.
-             let vm = this;
-             if(vm.$route.params.item == undefined){    //Routing이 아닌 새로고침 또는 URL로 직접쳐서들어올 경우, json 조회
-             axios.get('product.json')
-                .then(function(response){                
-                        vm.name = response.data[vm.index].name; 
-                        vm.info = response.data[vm.index].info; 
-                        vm.price = response.data[vm.index].price; 
-                        vm.saleYn = response.data[vm.index].saleYn; 
-                        vm.disCountPrice = response.data[vm.index].disCountPrice; 
-                        vm.path = response.data[vm.index].path; 
-                })
-                .catch(function(error){
-                    console.log(error);              
-                })
-             }           
-         },
          add : function(){   
             let obj = this.buyList.find( a=> a.name === this.selected);
             if(obj != undefined){
