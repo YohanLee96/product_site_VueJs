@@ -30,7 +30,7 @@
                 <aside class="col-sm-5" style="margin-left : 3%">
                     <div class="row">                              
                         <label class="my-1 mr-2" for="color/model">색상/모델</label>
-                        <select class="custom-select my-1 mr-sm-2"  v-model="selected" @change="add">
+                        <select class="custom-select my-1 mr-sm-2"  v-model="selected" @change="add(selected)">
                             <option value="블랙-1.6Gdi">블랙-1.6Gdi</option>
                             <option value="블랙-2.0Gdi">블랙-2.0Gdi</option>
                             <option value="레드-1.6Gdi">레드-1.6Gdi</option>
@@ -45,11 +45,12 @@
                                             <small style="color:gray">-{{result.name}}</small>
                                         </th>
                                         <td>
-                                            <button type="button" v-on:click="minus(index)" class="btn btn-light">-</button>
+                                            <button type="button" v-on:click="minus(result)" class="btn btn-light">-</button>
                                             <input type="text" 
                                                    v-bind:value="result.num"
-                                                   style="width:30%"/>
-                                            <button type="button" v-on:click="plus(index)" class="btn btn-light">+</button> 
+                                                   style="width:30%"
+                                                   id=index/>
+                                            <button type="button" v-on:click="plus(result)" class="btn btn-light">+</button> 
                                         </td>
                                         <td>
                                             <p style="white-space: nowrap;">{{item.price-item.disCountPrice}}원</p> 
@@ -64,13 +65,13 @@
                     </div>
                     <div class="row">
                              <h3 class="font-weight-bold">
-                                 {{totalPrice}}원
+                                 {{totalProductPrice}}원
                             </h3>
                             <small style="color:blue">({{totalProductNum}}개)</small>   
                     </div>
                     <div class="row">
                         <button type="button" class="btn btn-primary btn-lg btn-block" >장바구니</button>
-                        <button type="button" v-on:click="sendEvent()" class="btn btn-secondary btn-lg btn-block">바로 구매하기</button>
+                        <button type="button" v-on:click="sendEvent(item)" class="btn btn-secondary btn-lg btn-block">바로 구매하기</button>
                     </div>
             
                 </aside>
@@ -84,18 +85,12 @@ import axios from 'axios';
 
 export default {
     created(){
-        let vm = this.item;
-        if(vm ==undefined){
-            this.item = {};
+        let vm = this;
+        if(vm.item ==undefined){
+            vm.item = {};
             axios.get('product.json')
                 .then(function(response){
-                    // vm.name = response.data[this.index].name; 
-                    // vm.info = response.data[this.index].info; 
-                    // vm.price = response.data[this.index].price; 
-                    // vm.saleYn = response.data[this.index].saleYn; 
-                    // vm.disCountPrice = response.data[this.index].disCountPrice; 
-                    // vm.path = response.data[this.index].path; 
-                    this.item = response.data[this.$route.params.index];
+                    vm.item = response.data[vm.index];
                 })
                 .catch(function(error){
                     console.log(error);              
@@ -106,54 +101,52 @@ export default {
         return {
             //상품 기본정보
             index : this.$route.params.index,   
-            item : this.$route.params.item,
-            buyList : []    //상품 주문정보를 위한 객체
+            item : this.$route.params.item, //상품 주문정보를 담은 객체
+            buyList : []    //상품 주문정보를 위한 배열
             
         }
     },
     computed : {
          totalProductNum : function(){
             let totalNum =0;
-            for(let i=0;i<this.item.length;i++){
-                totalNum += this.item(i).num;                 
+            for(let i=0;i<this.buyList.length;i++){
+                totalNum += this.buyList[i].num;                 
             } 
             
             return totalNum;
         },
-        totalPrice : function(){       
+        totalProductPrice : function(){       
             return  (this.item.price-this.item.disCountPrice) * this.totalProductNum;
         }
     },
     methods : {
-         add : function(){   
-            let obj = this.buyList.find( a=> a.name === this.selected);
+         add : function(item){   
+            let obj = this.buyList.find( a=> a.name == item);
             if(obj != undefined){
                 alert('해당 제품은 이미 추가한 제품입니다.');
                 return false;
             }
-            this.buyList.push({name:this.selected,num:1})
+            this.buyList.push({name:item,num:1})
          },
-         plus : function(index){
-             this.buyList[index].num = this.buyList[index].num +1;
+         plus : function(item){
+             item.num = item.num +1;
          },
-         minus : function(index){
-             this.buyList[index].num = this.buyList[index].num -1;
+         minus : function(item){
+             item.num = item.num -1;
          },
          del : function(index){
+             //요소 완전삭제를 위해 splice함수 사용.
              this.buyList.splice(index,1);
          },
-         sendEvent : function(){        
+         sendEvent : function(item){        
             let router = this.$router; 
             router.push({
                 name : "confirm",
                 params : {
-                   productName : this.name,
-                   path : this.path,
-                   price : this.price-this.disCountPrice,
-                   resultList :  this.buyList,
-                   totalPrice : this.totalPrice,
-                   totalNum : this.totalProductNum,
-
+                    index : this.index,
+                    buyList  : this.buyList,
+                    totalProductPrice : this.totalProductPrice,
+                    item : item
                 }
             })
          }

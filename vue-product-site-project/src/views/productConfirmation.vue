@@ -23,16 +23,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(result,index) in resultList" v-bind:key="index">
+        <tr v-for="(result,index) in buyList" v-bind:key="index">
           <th scope="row">
-            <img style=" width:60px;height:60px;" v-bind:src="path" alt="제품 사진">
+            <img style=" width:60px;height:60px;" v-bind:src="item.path" alt="제품 사진">
           </th>
           <td>
-            <p class="font-weight-bold">{{productName}}</p>
+            <p class="font-weight-bold">{{item.name}}</p>
             <span class="badge badge-pill badge-dark">{{result.name}}</span>
           </td>
           <td>
-            <p class="font-weight-bold">{{price}}원</p>
+            <p class="font-weight-bold">{{item.price}}원</p>
           </td>
           <td>
              <p class="font-weight-bold">{{result.num}}</p>
@@ -48,7 +48,7 @@
             </p>
           </td>
           <td>
-            <p class="font-weight-bold">{{price * result.num}}원</p>
+            <p class="font-weight-bold">{{item.price * result.num}}원</p>
           </td>
         </tr>
         <tr>
@@ -70,23 +70,22 @@
 <script>
 export default {
   created(){
-    if(this.$route.params.resultList==undefined){
+    if(this.$route.params.buyList==undefined){
       alert('구매할 정보를 다시 입력해주세요!!');
       history.back(-1);
     }
   },
   data : function(){
     return {
-      productName : this.$route.params.productName,
-      path : this.$route.params.path,
-      price : this.$route.params.price,
-      resultList : this.$route.params.resultList, //결제 확정 리스트.
-      totalProductPrice : this.$route.params.totalPrice, //결제 확정 총금액.
-      totalNum : this.$route.params.totalNum,  //결제 확정 총 상품 개수.
+      index : this.$route.params.index,   
+      buyList : this.$route.params.buyList, //주문정보
+      totalProductPrice : this.$route.params.totalProductPrice, //총 주문가격
+      item : this.$route.params.item  //상품정보
+
     }
   },
   computed : {
-    deliveryPrice : function(){
+    deliveryPrice : function(){ //배송비유무.
 
         let price = 0;
 
@@ -96,7 +95,7 @@ export default {
           return price=2500;
         }
     },
-     totalPrice : function(){
+     totalPrice : function(){ //배송비포함 총 가격.
       return  this.totalProductPrice + this.deliveryPrice;
     }
     

@@ -2,7 +2,7 @@
  <div class="container">
     <h1 class="my-4">Product-List</h1>
     <div class="row">
-        <div v-for="(result,index) in pageList" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div v-for="(result,index) in productList" :key="index" class="col-lg-3 col-md-4 col-sm-6 mb-4">
             <div class="card h-100">
                 <img class="card-img-top" v-bind:src="result.path" alt="자동차 이미지">
                 <div class="card-body">
@@ -74,32 +74,11 @@ export default {
     },
     data : function(){
         return {
-            productList : [],
-            pageSize : 4,              // 한페이지 표출할 게시물 수
-            firstIndex : 0,            // 첫번째 게시물 Index
-            lastIndex : 4,             // 마지막 게시물 Index 
-            pageCount : 1,             // 현재 몇페이지인지.. 
-            pageSet : 10,       // 페이지 셋 기준
+            productList : []
         }
     },
     computed : {
-       dataCnt : function() {   //총 게시물 수.
-           return this.productList.length;
-       },
-       pageCnt : function(){    //페이지셋 갯수
-           return Math.ceil(this.dataCnt/this.pageSize);
-       },
-       pageList : function(){   //데이터 slice
-            return this.productList.slice(this.firstIndex,this.lastIndex);
-       },
-       firstPageSet : function(){
-           return Math.floor(this.pageCount/this.pageSet) * this.pageSet;
-       },
-       lastPageSet : function(){
-           return this.firstPageSet + this.pageSet;
-       }
-
-       
+   
     },
     methods:{
          sendEvent : function(item,index){  //상세보기로 이동.         
@@ -112,22 +91,6 @@ export default {
                 }
 
             })
-         },
-         pagingClick : function(index){ //페이징 계산 함수.
-             if(index <= 0 || this.pageCnt<index){    //index가 0이하거나, 최대페이지셋 개수를 초과할 경우, 아무 작업안함.
-                return false;
-             }else{ //페이징 계산.
-                this.pageCount = index;
-                this.firstIndex = (index-1) * this.pageSize;
-                this.lastIndex = this.firstIndex + this.pageSize;
-
-
-             }
-         },
-         pageActive : function(index){  //현재 페이지 클래스 active 시켜주는 함수
-             if(index==this.pageCount){ return true;}
-             else return false;
-             
          }
     }
 
