@@ -31,7 +31,7 @@
 export default {
     data : function(){
         return {
-            title : 'Product List'
+            title : '피규어 제품 리스트'
         }
     }
 }

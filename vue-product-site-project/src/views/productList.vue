@@ -59,18 +59,12 @@
 
 <script>
 
-import axios from 'axios';
+import common from '../lib/common.js';
+
 
 export default {
-    created(){
-        let vm = this;
-        axios.get('product.json')
-        .then(function(response){
-            vm.productList = response.data;
-        })
-        .catch(function(error){
-            console.log(error);              
-        })
+    async created(){
+       this.productList = await common.jsonSearchList('product.json');
     },
     data : function(){
         return {

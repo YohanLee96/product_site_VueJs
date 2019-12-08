@@ -39,7 +39,8 @@
     ],
     "rules": {
       "no-console": "off",
-      "vue/no-use-v-if-with-v-for": "off"
+      "vue/no-use-v-if-with-v-for": "off",
+      "no-dupe-keys" : "off"
     },
     "parserOptions": {
       "parser": "babel-eslint"

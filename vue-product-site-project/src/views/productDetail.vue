@@ -81,20 +81,13 @@
 </template>
 
 <script>
-import axios from 'axios';
+import common from '../lib/common.js';
 
 export default {
-    created(){
+    async created(){
         let vm = this;
         if(vm.item ==undefined){
-            vm.item = {};
-            axios.get('product.json')
-                .then(function(response){
-                    vm.item = response.data[vm.index];
-                })
-                .catch(function(error){
-                    console.log(error);              
-                })
+           vm.item = await common.jsonSearchFineOne('product.json',vm.index);
         }
     },
     data : function() {
