@@ -15,12 +15,12 @@ const routes = [
     component: () => import('../views/productList.vue')
   },
   {
-    path: '/:index',
+    path: '/:name',
     name: 'detail',
     component: () => import(/* webpackChunkName: "about" */ '../views/productDetail.vue'),
   },
   {
-    path: '/:index/confirm',
+    path: '/:name/confirm',
     name: 'confirm',
     component: () => import(/* webpackChunkName: "about" */ '../views/productConfirmation.vue'),
   }

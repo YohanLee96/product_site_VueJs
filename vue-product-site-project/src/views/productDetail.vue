@@ -93,7 +93,7 @@ export default {
     data : function() {
         return {
             //상품 기본정보
-            index : this.$route.params.index,   
+            name : this.$route.params.name,   
             item : this.$route.params.item, //상품 주문정보를 담은 객체
             buyList : []    //상품 주문정보를 위한 배열
             
