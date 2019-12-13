@@ -30,25 +30,37 @@
 
     <!-- 페이징 처리 -->
      
-    <div class="justify-content-center" style="width: 100%;align-items: center;display: flex;">
+    <div class="justify-content-center">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link"  v-on:click="nowPageIndex = nowPageIndex-1">
+                <a class="page-link"  v-on:click="pageNo = 1;">
+                    <span aria-hidden="true">&lt;&lt;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"  v-on:click="previous()">
                     <span aria-hidden="true">&lt;</span>
                     <span class="sr-only">Previous</span>
                 </a>
             </li>
             <li
-            v-for="pageIndex in pageSetCnt"
-                    :key="pageIndex"
-                    v-if="firstPageSet<=pageIndex && pageIndex<=lastPageSet"
-                    class="page-item" 
-                    :class="{'active' : pageActive(pageIndex)}">
-                <a class="page-link" v-on:click="pagingClick(pageIndex)">{{pageIndex}}</a>
+                v-for="pageIndex in pageSetCnt" :key="pageIndex"                    
+                class="page-item" :class="{'active' : pageActive(pageIndex)}"
+            >
+                <div v-if="firstPageSet<=pageIndex && pageIndex<=lastPageSet">
+                    <a class="page-link" v-on:click="pagingClick(pageIndex)">{{pageIndex}}</a>
+                </div>
             </li>
             <li class="page-item">
-                <a class="page-link" aria-label="Next" v-on:click="pageNo = pageNo+1">
+                <a class="page-link" aria-label="Next" v-on:click="next()">
                     <span aria-hidden="true">&gt;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+             <li class="page-item">
+                <a class="page-link" aria-label="Next" v-on:click="pageNo = pageSetCnt">
+                    <span aria-hidden="true">&gt;&gt;</span>
                     <span class="sr-only">Next</span>
                 </a>
             </li>
@@ -81,7 +93,7 @@ export default {
         dataCnt : function(){   //데이터 총 개수
             return this.productList.length;
         },
-        pageSetCnt : function(){   //페이지아이템 개수
+        pageSetCnt : function(){   //페이지셋 총 개수
             return Math.ceil(this.dataCnt/this.pageSize);
         },
         pageSetNo : function(){ //현재 페이지셋
@@ -123,6 +135,19 @@ export default {
          },
          pagingClick : function(pageIndex){ //페이징네비게이션 이벤트
              this.pageNo = pageIndex;
+         },
+         next : function(){
+             if(this.pageSetCnt <=this.pageNo){
+                 return false;
+             }
+             this.pageNo = this.pageNo +1;
+         },
+         previous : function(){
+             if(this.pageNo <=1){
+                return false;        
+             }
+
+             this.pageNo = this.pageNo -1;
          }
     }
 
@@ -155,5 +180,13 @@ export default {
         }
         small.text-muted{
             font-weight: bold;
+        }
+        a{
+            cursor:pointer;
+        }
+        div.justify-content-center{
+            width: 100%;
+            align-items: center;
+            display: flex;
         }
 </style>

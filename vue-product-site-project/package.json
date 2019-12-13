@@ -39,7 +39,9 @@
     ],
     "rules": {
       "no-console": "off",
-      "vue/no-use-v-if-with-v-for": "off",
+      "vue/no-use-v-if-with-v-for": ["error", {
+        "allowUsingIterationVar": true
+      }],
       "no-dupe-keys" : "off"
     },
     "parserOptions": {
