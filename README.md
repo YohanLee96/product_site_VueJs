@@ -1,8 +1,8 @@
-## Product Buy Page
+## Summary
+vue.js를 이용하여 상품구매서비스를 구현해보았습니다.
 
-### Stack : Vue.js,Bootstrap Library
 
-## Logic
+## Info
 
 <br />
 
@@ -10,8 +10,3 @@
 2. 상품 상세보기
 3. 상품 구매확인
 
-
-
-Paging 구현.
-
-Vue-cli, Vue-Router 사용.
